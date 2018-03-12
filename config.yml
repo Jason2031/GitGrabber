@@ -1,0 +1,17 @@
+commit_count : 0  # commit_count limit, 0 denotes unlimitted
+date :
+  # precise date or 0 to ignore date bound
+  - from_date : 2017-01-01
+  - to_date : 2018-01-01
+working_dir : /home/jason/work/GitGrabber_working_space/input/curl
+output :
+  dir : /home/jason/work/GitGrabber_working_space/report/curl
+  file_name : curl.db
+  content :
+    # comment those lines that you don't need to output
+    - hash
+    - summary
+    - description
+    - date
+    - author
+    - diff  # stored in output.dir/diff folder
