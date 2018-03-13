@@ -32,15 +32,15 @@ result
 
 | — — diff - folder storing patches of each commit
 
-​               | — — 1234…abcd - folder storing patch files of corresponding commit
+​		| — — 1234…abcd - folder storing patch files of corresponding commit
 
-​               |               | — — a.diff - patch file
+​		|		| — — a.diff - patch file
 
-​               |               | — — b.diff
+​		|		| — — b.diff
 
-​               | — — abcd…1234
+​		| — — abcd…1234
 
-​                               | — — a.diff
+​				| — — a.diff
 
 #### TODO
 
