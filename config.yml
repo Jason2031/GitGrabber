@@ -1,12 +1,21 @@
-commit_count : 0  # commit_count limit, 0 denotes unlimitted
-date :
-  # precise date or 0 to ignore date bound
-  - from_date : 2017-01-01
-  - to_date : 2018-01-01
-working_dir : /home/jason/work/GitGrabber_working_space/input/curl
+working_dir : absolute/or/relative/path/to/target/git/repo/root
+filter :
+  branch : master
+  restrict :
+    commit_count : 1000  # commit_count limit or -1 to ignore limit
+    # precise date or -1 to ignore date bound
+    from_date : 2017-01-01
+    to_date : 2018-01-01
+  key_words:
+    first:
+      - bug fix
+    second:
+      - integer overflow
+      - integer underflow
+      - memory leak
 output :
-  dir : /home/jason/work/GitGrabber_working_space/report/curl
-  file_name : curl.db
+  dir : absolute/or/relative/path/where/you/want/to/store/the/result
+  file_name : report.db
   content :
     # comment those lines that you don't need to output
     - hash

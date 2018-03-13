@@ -1,8 +1,11 @@
 import argparse
 import os
+import datetime
 
 import yaml
 from git import Repo
+from git import GitCommandError
+from git import NULL_TREE
 
 from Recorder import DBRecorder
 
@@ -22,5 +25,80 @@ if __name__ == '__main__':
         config = yaml.load(f.read())
     recorder = DBRecorder(config)
     recorder.create_db_table()
+
+    diff_root = os.path.expanduser(os.path.join(config['output']['dir'], 'diff'))
+
     repo = Repo(config['working_dir'])
-    print(repo)
+
+    skip = 0
+    page_size = 50
+
+    from_date = config['filter']['restrict']['from_date']
+    from_date = datetime.datetime.strptime('1970-01-01' if from_date == -1 else str(from_date), '%Y-%m-%d')
+    to_date = config['filter']['restrict']['to_date']
+    to_date = datetime.datetime.strptime(
+        str(datetime.date.today() + datetime.timedelta(days=1)) if to_date == -1 else str(to_date), '%Y-%m-%d')
+
+    commit_count = 0
+    commit_count_limit = int(config['filter']['restrict']['commit_count'])
+
+    fields = config['output']['content']
+    can_continue = True
+
+    while can_continue:
+        try:
+            commit_page = list(repo.iter_commits(config['filter']['branch'], max_count=page_size, skip=skip))
+        except GitCommandError:
+            print('No such branch or other error(s) happened.')
+            exit(-1)
+        for commit in commit_page:
+            if commit_count_limit == -1 or commit_count < commit_count_limit:
+                commit_date = commit.committed_datetime.replace(tzinfo=None)
+                if commit_date > to_date:
+                    continue
+                if from_date <= commit_date:
+                    record = {}
+                    if 'hash' in fields:
+                        record['hash'] = commit.hexsha
+                    if 'summary' in fields:
+                        record['summary'] = commit.summary
+                    if 'description' in fields:
+                        record['description'] = commit.message
+                    if 'date' in fields:
+                        record['date'] = str(commit_date)
+                    if 'author' in fields:
+                        record['author'] = commit.author.name
+                    if 'diff' in fields:
+                        parents = commit.parents
+                        if len(parents) > 1:
+                            # not tested
+                            sorted_parents = sorted(parents, key=lambda x: x.committed_datetime)
+                            latest = sorted_parents[-1]
+                            diffs = latest.diff(commit, create_patch=True)
+                        elif len(parents) == 1:
+                            diffs = parents[0].diff(commit, create_patch=True)
+                        else:
+                            diffs = commit.diff(NULL_TREE, create_patch=True)
+                        for diff in diffs:
+                            diff_folder = os.path.join(diff_root, commit.hexsha)
+                            if not os.path.exists(diff_folder):
+                                os.makedirs(diff_folder)
+                            file_name=diff.b_path if diff.a_path is None else diff.a_path
+                            file_path = os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff')
+                            with open(file_path, 'w') as f:
+                                f.write(str(diff))
+
+                    commit_count += 1
+                    recorder.add_db_record(record)
+                else:
+                    can_continue = False
+                    break
+            else:
+                can_continue = False
+                break
+            print(commit_count)
+        if len(commit_page) == 0:
+            break
+        skip += len(commit_page)
+
+    recorder.close()

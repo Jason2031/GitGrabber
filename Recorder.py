@@ -10,10 +10,11 @@ class DBRecorder:
         self.fields = config['output']['content']
 
     def connect_db(self):
-        if not os.path.exists(self.config['output']['dir']):
-            os.makedirs(self.config['output']['dir'])
-        conn = sqlite3.connect(os.path.join(self.config['output']['dir'], self.config['output']['file_name']))
-        if not conn:
+        path = os.path.expanduser(self.config['output']['dir'])
+        if not os.path.exists(path):
+            os.makedirs(path)
+        self.conn = sqlite3.connect(os.path.join(path, self.config['output']['file_name']))
+        if not self.conn:
             print('Fail to connect to sqlite db')
             exit(-1)
 
@@ -32,12 +33,23 @@ class DBRecorder:
         if 'author' in self.fields:
             create_strs.append('author text')
         self.cursor = self.conn.cursor()
-        self.cursor.execute('create table record({})'.format(','.join(create_strs)))
+        try:
+            self.cursor.execute('create table record({})'.format(','.join(create_strs)))
+        except sqlite3.OperationalError:
+            # table already exists, do nothing
+            pass
 
-    def add_record(self, row):
+    def add_db_record(self, row):
         if not self.conn:
             self.connect_db()
-        assert row is dict
         question_marks = ['?' for _ in row.keys()]
-        self.cursor.execute('insert into record({}) values ({})'.format(row.keys(), ','.join(question_marks)),
-                            row.values())
+        sql_str = 'insert into record({}) values ({})'.format(','.join(row.keys()), ','.join(question_marks))
+        self.cursor.execute(sql_str, tuple(row.values()))
+        self.conn.commit()
+
+    def add_diff_record(self, diff):
+        pass
+
+    def close(self):
+        self.cursor.close()
+        self.conn.close()
