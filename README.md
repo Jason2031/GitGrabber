@@ -28,19 +28,13 @@ Install them using pip or else.
 
 result
 
-| — — report.db (or name you specified in `config.yml`) - sqlite file storing meta data of each commit extracted
-
-| — — diff - folder storing patches of each commit
-
-​		| — — 1234…abcd - folder storing patch files of corresponding commit
-
-​		|		| — — a.diff - patch file
-
-​		|		| — — b.diff
-
-​		| — — abcd…1234
-
-​				| — — a.diff
+* report.db (or name you specified in `config.yml`) - sqlite file storing meta data of each commit extracted
+* diff - folder storing patches of each commit
+  * 1234…abcd - folder storing patch files of corresponding commit
+    * a.diff - patch file
+    * b.diff
+  * abcd…1234
+    * a.diff
 
 #### TODO
 
