@@ -19,8 +19,8 @@ output :
   content :
     # comment those lines that you don't need to output
     - hash
-    - summary
-    - description
+    - summary  # needed to filter commits using key words
+    - description  # needed to filter commits using key words
     - date
     - author
     - diff  # stored in output.dir/diff folder
