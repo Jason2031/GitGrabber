@@ -58,5 +58,9 @@ class DBFilter:
             sql_str = 'insert into result({}) values ({})'.format(','.join(row.keys()), ','.join(question_marks))
         else:
             sql_str = 'insert into mid({}) values ({})'.format(','.join(row.keys()), ','.join(question_marks))
-        self.cursor.execute(sql_str, tuple(row.values()))
-        self.conn.commit()
+        try:
+            self.cursor.execute(sql_str, tuple(row.values()))
+            self.conn.commit()
+        except sqlite3.OperationalError:
+            # row already exists, do nothing
+            pass

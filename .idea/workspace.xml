@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a33606b-f422-4bf4-9343-43933196b406" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Recorder.py" afterPath="$PROJECT_DIR$/Recorder.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Filter.py" afterPath="$PROJECT_DIR$/Filter.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="116" column="31" lean-forward="true" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
+            <state relative-caret-position="500">
+              <caret line="122" column="30" lean-forward="false" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -35,8 +32,8 @@
       <file leaf-file-name="Recorder.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Recorder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+            <state relative-caret-position="365">
+              <caret line="37" column="8" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="39" selection-end-column="16" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <marker date="1521028199268" expanded="true" signature="1218:1241" ph="create table... record" />
@@ -46,20 +43,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Filter.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Filter.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Filter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="575">
-              <caret line="61" column="26" lean-forward="false" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+            <state relative-caret-position="620">
+              <caret line="64" column="21" lean-forward="true" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <marker date="1521030457209" expanded="true" signature="1041:1061" ph="create table... mid" />
-                <marker date="1521030457209" expanded="true" signature="1127:1150" ph="create table... result" />
-                <marker date="1521030457209" expanded="true" signature="1423:1466" ph="select * fro... mid" />
-                <marker date="1521030457209" expanded="true" signature="1508:1522" ph="select * fro... summary" />
-                <marker date="1521030457209" expanded="true" signature="1508:1554" ph="select * fro... record" />
-                <marker date="1521030457209" expanded="true" signature="2127:2161" ph="insert into result... " />
-                <marker date="1521030457209" expanded="true" signature="2255:2286" ph="insert into mid... " />
+                <marker date="1521032786906" expanded="true" signature="1041:1061" ph="create table... mid" />
+                <marker date="1521032786906" expanded="true" signature="1127:1150" ph="create table... result" />
+                <marker date="1521032786906" expanded="true" signature="1423:1466" ph="select * fro... mid" />
+                <marker date="1521032786906" expanded="true" signature="1508:1522" ph="select * fro... summary" />
+                <marker date="1521032786906" expanded="true" signature="1508:1554" ph="select * fro... record" />
+                <marker date="1521032786906" expanded="true" signature="2127:2161" ph="insert into result... " />
+                <marker date="1521032786906" expanded="true" signature="2255:2286" ph="insert into mid... " />
               </folding>
             </state>
           </provider>
@@ -408,10 +405,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="122" column="30" lean-forward="false" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Recorder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+        <state relative-caret-position="365">
+          <caret line="37" column="8" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="39" selection-end-column="16" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
             <marker date="1521028199268" expanded="true" signature="1218:1241" ph="create table... record" />
@@ -422,27 +429,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="61" column="26" lean-forward="false" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+        <state relative-caret-position="620">
+          <caret line="64" column="21" lean-forward="true" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
-            <marker date="1521030457209" expanded="true" signature="1041:1061" ph="create table... mid" />
-            <marker date="1521030457209" expanded="true" signature="1127:1150" ph="create table... result" />
-            <marker date="1521030457209" expanded="true" signature="1423:1466" ph="select * fro... mid" />
-            <marker date="1521030457209" expanded="true" signature="1508:1522" ph="select * fro... summary" />
-            <marker date="1521030457209" expanded="true" signature="1508:1554" ph="select * fro... record" />
-            <marker date="1521030457209" expanded="true" signature="2127:2161" ph="insert into result... " />
-            <marker date="1521030457209" expanded="true" signature="2255:2286" ph="insert into mid... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="116" column="31" lean-forward="true" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <marker date="1521032786906" expanded="true" signature="1041:1061" ph="create table... mid" />
+            <marker date="1521032786906" expanded="true" signature="1127:1150" ph="create table... result" />
+            <marker date="1521032786906" expanded="true" signature="1423:1466" ph="select * fro... mid" />
+            <marker date="1521032786906" expanded="true" signature="1508:1522" ph="select * fro... summary" />
+            <marker date="1521032786906" expanded="true" signature="1508:1554" ph="select * fro... record" />
+            <marker date="1521032786906" expanded="true" signature="2127:2161" ph="insert into result... " />
+            <marker date="1521032786906" expanded="true" signature="2255:2286" ph="insert into mid... " />
           </folding>
         </state>
       </provider>
