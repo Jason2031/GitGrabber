@@ -14,7 +14,8 @@ class DBRecorder:
         if not os.path.exists(path):
             os.makedirs(path)
         self.conn = sqlite3.connect(os.path.join(path, self.config['output']['file_name']))
-        if not self.conn:
+        self.cursor = self.conn.cursor()
+        if not self.conn or not self.cursor:
             print('Fail to connect to sqlite db')
             exit(-1)
 
@@ -32,7 +33,6 @@ class DBRecorder:
             create_strs.append('date text')
         if 'author' in self.fields:
             create_strs.append('author text')
-        self.cursor = self.conn.cursor()
         try:
             self.cursor.execute('create table record({})'.format(','.join(create_strs)))
         except sqlite3.OperationalError:
@@ -46,9 +46,6 @@ class DBRecorder:
         sql_str = 'insert into record({}) values ({})'.format(','.join(row.keys()), ','.join(question_marks))
         self.cursor.execute(sql_str, tuple(row.values()))
         self.conn.commit()
-
-    def add_diff_record(self, diff):
-        pass
 
     def close(self):
         self.cursor.close()

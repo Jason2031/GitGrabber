@@ -8,6 +8,7 @@ from git import GitCommandError
 from git import NULL_TREE
 
 from Recorder import DBRecorder
+from Filter import DBFilter
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Grab useful message from git repository')
@@ -45,6 +46,7 @@ if __name__ == '__main__':
     fields = config['output']['content']
     can_continue = True
 
+    print('Start extracting...')
     while can_continue:
         try:
             commit_page = list(repo.iter_commits(config['filter']['branch'], max_count=page_size, skip=skip))
@@ -83,7 +85,7 @@ if __name__ == '__main__':
                             diff_folder = os.path.join(diff_root, commit.hexsha)
                             if not os.path.exists(diff_folder):
                                 os.makedirs(diff_folder)
-                            file_name=diff.b_path if diff.a_path is None else diff.a_path
+                            file_name = diff.b_path if diff.a_path is None else diff.a_path
                             file_path = os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff')
                             with open(file_path, 'w') as f:
                                 f.write(str(diff))
@@ -100,5 +102,27 @@ if __name__ == '__main__':
         if len(commit_page) == 0:
             break
         skip += len(commit_page)
+    print('Extracting done...')
+
+    print('Start filtering...')
+    commit_count = 0
+    db_filter = DBFilter(config, recorder.conn)
+    db_filter.create_db()
+
+    for first_level_keyword in config['filter']['key_words']['first']:
+        result = db_filter.filter(first_level_keyword, from_mid=False)
+        for item in result:
+            db_filter.add_db_record(item, is_final_result=False)
+            commit_count += 1
+            print(commit_count)
+
+    commit_count = 0
+    for second_level_keyword in config['filter']['key_words']['second']:
+        result = db_filter.filter(second_level_keyword, from_mid=True)
+        for item in result:
+            db_filter.add_db_record(item, is_final_result=True)
+            commit_count += 1
+            print(commit_count)
 
     recorder.close()
+    print('All done!')

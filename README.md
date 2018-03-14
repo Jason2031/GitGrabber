@@ -3,7 +3,7 @@ A script to grab specific info from specific git repo
 
 #### Extract process
 
-Strip git repo with specific restrict (commit count, or commit datetime interval, finished) 👉 Filter git commit  with key words (TODO)
+Strip git repo with specific restrict (commit count, or commit datetime interval) 👉 Filter git commit  with key words
 
 #### Prerequisites
 
@@ -36,6 +36,8 @@ result
   * abcd…1234
     * a.diff
 
-#### TODO
+#### The report.db
 
-1. Filter commit using user-defined key words
+There are 3 tables after `All done!` prompt. The relationship among these 3 tables is as follow:
+
+original git repo =====filter.restrict=====> `record` table =====filter.key_words.first=====> `mid` table =====filter.key_words.second=====> result
