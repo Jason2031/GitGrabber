@@ -1,4 +1,6 @@
+import argparse
 import sqlite3
+
 import yaml
 
 from Recorder import DBRecorder
@@ -61,6 +63,44 @@ class DBFilter:
         try:
             self.cursor.execute(sql_str, tuple(row.values()))
             self.conn.commit()
-        except sqlite3.OperationalError:
+        except sqlite3.DatabaseError:
             # row already exists, do nothing
             pass
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Grab useful message from git repository')
+    parser.add_argument('--config',
+                        dest='config_file',
+                        help='location of config.yml file',
+                        default='./config.yml',
+                        type=str)
+    args = parser.parse_args()
+    config_file = None
+    with open(args.config_file) as f:
+        config_file = yaml.load(f.read())
+
+    db_recorder = DBRecorder(config_file)
+    db_recorder.connect_db()
+
+    db_filter = DBFilter(config_file, db_recorder.conn)
+    db_filter.create_db()
+
+    commit_count = 0
+    for first_level_keyword in config_file['filter']['key_words']['first']:
+        filter_result = db_filter.filter(first_level_keyword, from_mid=False)
+        for item in filter_result:
+            db_filter.add_db_record(item, is_final_result=False)
+            commit_count += 1
+            print(commit_count)
+
+    commit_count = 0
+    for second_level_keyword in config_file['filter']['key_words']['second']:
+        filter_result = db_filter.filter(second_level_keyword, from_mid=True)
+        for item in filter_result:
+            db_filter.add_db_record(item, is_final_result=True)
+            commit_count += 1
+            print(commit_count)
+
+    db_recorder.close()
+    print('All done!')

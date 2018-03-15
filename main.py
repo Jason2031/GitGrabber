@@ -1,14 +1,15 @@
 import argparse
-import os
 import datetime
+import json
+import os
 
 import yaml
-from git import Repo
 from git import GitCommandError
 from git import NULL_TREE
+from git import Repo
 
-from Recorder import DBRecorder
 from Filter import DBFilter
+from Recorder import DBRecorder
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Grab useful message from git repository')
@@ -86,10 +87,10 @@ if __name__ == '__main__':
                             if not os.path.exists(diff_folder):
                                 os.makedirs(diff_folder)
                             file_name = diff.b_path if diff.a_path is None else diff.a_path
-                            file_path = os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff')
-                            with open(file_path, 'w') as f:
+                            with open(os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff'), 'w') as f:
                                 f.write(str(diff))
-
+                            with open(os.path.join(diff_folder, 'description.txt'), 'w') as f:
+                                f.write(json.dumps(record, indent=4))
                     commit_count += 1
                     recorder.add_db_record(record)
                 else:

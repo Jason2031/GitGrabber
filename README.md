@@ -30,6 +30,7 @@ result
 
 * report.db (or name you specified in `config.yml`) - sqlite file storing meta data of each commit extracted
 * diff - folder storing patches of each commit
+  * description.txt - json-formatted file storing description data of this commit (same as corresponding row in report.db)
   * 1234…abcd - folder storing patch files of corresponding commit
     * a.diff - patch file
     * b.diff

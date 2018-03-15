@@ -44,8 +44,12 @@ class DBRecorder:
             self.connect_db()
         question_marks = ['?' for _ in row.keys()]
         sql_str = 'insert into record({}) values ({})'.format(','.join(row.keys()), ','.join(question_marks))
-        self.cursor.execute(sql_str, tuple(row.values()))
-        self.conn.commit()
+        try:
+            self.cursor.execute(sql_str, tuple(row.values()))
+            self.conn.commit()
+        except sqlite3.DatabaseError:
+            # row already exists, do nothing
+            pass
 
     def close(self):
         self.cursor.close()
