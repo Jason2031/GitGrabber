@@ -9,7 +9,7 @@ Strip git repo with specific restrict (commit count, or commit datetime interval
 
 * python3
   * gitpython
-  * yaml
+  * pyyaml
 
 Install them using pip or else.
 
