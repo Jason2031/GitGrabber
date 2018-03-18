@@ -1,9 +1,9 @@
 # GitGrabber
 A script to grab specific info from specific git repo
 
-#### Extract process
+#### Grab process
 
-Strip git repo with specific restrict (commit count, or commit datetime interval) 👉 Filter git commit  with key words
+*Extract* git repo with specific restrict (commit count, or commit datetime interval) 👉 *Filter* git commit  using key words
 
 #### Prerequisites
 
@@ -29,7 +29,7 @@ Install them using pip or else.
 result
 
 * report.db (or name you specified in `config.yml`) - sqlite file storing meta data of each commit extracted
-* diff - folder storing patches of each commit
+* diff_xxx - folder storing patches of each commit (`diff_all` for all commits, `diff_mid` for middle result from first level key words, `diff_result` for final result from second level key words)
   * description.txt - json-formatted file storing description data of this commit (same as corresponding row in report.db)
   * 1234…abcd - folder storing patch files of corresponding commit
     * a.diff - patch file
@@ -45,4 +45,5 @@ original git repo =====filter.restrict=====> `record` table =====filter.key_word
 
 #### Note
 
-sqlite in python can't use question marks ("?") in LIKE sentence, so MAY CAUSE SQL INJECTION ATTACK IN KEYWORD FIELD!!!
+1. sqlite in python can't use question marks ("?") in LIKE sentence, so MAY CAUSE SQL INJECTION ATTACK IN KEYWORD FIELD!!!
+2. Filter process may suffer from performance problem.

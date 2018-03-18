@@ -28,7 +28,7 @@ if __name__ == '__main__':
     recorder = DBRecorder(config)
     recorder.create_db_table()
 
-    diff_root = os.path.expanduser(os.path.join(config['output']['dir'], 'diff'))
+    diff_root = os.path.expanduser(os.path.join(config['output']['dir'], 'diff_all'))
 
     repo = Repo(config['working_dir'])
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
                         record['date'] = str(commit_date)
                     if 'author' in fields:
                         record['author'] = commit.author.name
-                    if 'diff' in fields:
+                    if config['output']['diff_all']:
                         parents = commit.parents
                         if len(parents) > 1:
                             # not tested

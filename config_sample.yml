@@ -1,10 +1,10 @@
-working_dir : absolute/or/relative/path/to/target/git/repo/root
+working_dir : ~/Desktop/GitGrabber_working_space/input/curl
 filter :
   branch : master
   restrict :
-    commit_count : 1000  # commit_count limit or -1 to ignore limit
+    commit_count : -1  # commit_count limit or -1 to ignore limit
     # precise date or -1 to ignore date bound
-    from_date : 2017-01-01
+    from_date : 2008-01-01
     to_date : 2018-01-01
   key_words:
     first:
@@ -22,7 +22,7 @@ filter :
       - integer underflow
       - memory leak
 output :
-  dir : absolute/or/relative/path/where/you/want/to/store/the/result
+  dir : ~/Desktop/GitGrabber_working_space/report/curl
   file_name : report.db
   content :
     - hash

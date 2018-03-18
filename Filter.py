@@ -1,5 +1,7 @@
 import argparse
 import sqlite3
+import os
+import shutil
 
 import yaml
 
@@ -17,6 +19,11 @@ class DBFilter:
             'second': config['filter']['key_words']['second'] if 'second' in config['filter']['key_words'].keys()
             else None
         }
+        self.output_dir = os.path.expanduser(self.config['output']['dir'])
+        if not os.path.exists(os.path.join(self.output_dir, 'diff_mid')):
+            os.makedirs(os.path.join(self.output_dir, 'diff_mid'))
+        if not os.path.exists(os.path.join(self.output_dir, 'diff_result')):
+            os.makedirs(os.path.join(self.output_dir, 'diff_result'))
 
     def create_db(self):
         create_strs = []
@@ -49,6 +56,20 @@ class DBFilter:
             record = {}
             for i in range(len(result.description)):
                 record[result.description[i][0]] = row[i]
+            if 'hash' in record.keys():
+                if os.path.exists(os.path.join(self.output_dir, 'diff_all', record['hash'])):
+                    try:
+                        if self.config['output']['diff_all']:
+                            if self.config['output']['diff_mid'] and not from_mid:
+                                shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
+                                                os.path.join(self.output_dir, 'diff_mid', record['hash']))
+                            if self.config['output']['diff_mid'] and from_mid:
+                                shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
+                                                os.path.join(self.output_dir, 'diff_result', record['hash']))
+                        else:
+                            print('No diff record!')
+                    except FileExistsError:
+                        pass
             result_list.append(record)
         return result_list
 
