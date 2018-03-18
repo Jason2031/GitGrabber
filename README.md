@@ -42,3 +42,7 @@ result
 There are 3 tables after `All done!` prompt. The relationship among these 3 tables is as follow:
 
 original git repo =====filter.restrict=====> `record` table =====filter.key_words.first=====> `mid` table =====filter.key_words.second=====> result
+
+#### Note
+
+sqlite in python can't use question marks ("?") in LIKE sentence, so MAY CAUSE SQL INJECTION ATTACK IN KEYWORD FIELD!!!
