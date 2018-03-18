@@ -54,6 +54,10 @@ if __name__ == '__main__':
         except GitCommandError:
             print('No such branch or other error(s) happened.')
             exit(-1)
+        last_commit_in_page = commit_page[-1]
+        if last_commit_in_page.committed_datetime.replace(tzinfo=None) > to_date:
+            skip += len(commit_page)
+            continue
         for commit in commit_page:
             if commit_count_limit == -1 or commit_count < commit_count_limit:
                 commit_date = commit.committed_datetime.replace(tzinfo=None)
