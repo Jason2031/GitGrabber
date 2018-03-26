@@ -1,7 +1,7 @@
 import argparse
-import sqlite3
 import os
 import shutil
+import sqlite3
 
 import yaml
 
@@ -13,7 +13,6 @@ class DBFilter:
         self.config = config
         self.conn = db_conn
         self.cursor = self.conn.cursor()
-        self.fields = config['output']['content']
         self.keywords = {
             'first': config['filter']['key_words']['first'],
             'second': config['filter']['key_words']['second'] if 'second' in config['filter']['key_words'].keys()
@@ -26,17 +25,13 @@ class DBFilter:
             os.makedirs(os.path.join(self.output_dir, 'diff_result'))
 
     def create_db(self):
-        create_strs = []
-        if 'hash' in self.fields:
-            create_strs.append('hash text primary key not null')
-        if 'summary' in self.fields:
-            create_strs.append('summary text not null')
-        if 'description' in self.fields:
-            create_strs.append('description text')
-        if 'date' in self.fields:
-            create_strs.append('date text')
-        if 'author' in self.fields:
-            create_strs.append('author text')
+        create_strs = [
+            'hash text primary key not null',
+            'summary text not null',
+            'description text',
+            'date text',
+            'author text'
+        ]
         try:
             self.cursor.execute('create table mid({})'.format(','.join(create_strs)))
             self.cursor.execute('create table result({})'.format(','.join(create_strs)))
@@ -46,11 +41,9 @@ class DBFilter:
 
     def filter(self, like_what, from_mid=False):
         assert type(like_what) is str
-        if from_mid:
-            filter_str = 'select * from mid where summary like "%{}%"'
-        else:
-            filter_str = 'select * from record where summary like "%{}%"'
-        result = self.cursor.execute(filter_str.format(like_what))
+        like_str = '"%{}%"'.format('%'.join(like_what.split(' ')))
+        filter_str = 'select * from {} where summary like {}'.format('mid' if from_mid else 'record', like_str)
+        result = self.cursor.execute(filter_str)
         result_list = []
         for row in result:
             record = {}
@@ -59,13 +52,12 @@ class DBFilter:
             if 'hash' in record.keys():
                 if os.path.exists(os.path.join(self.output_dir, 'diff_all', record['hash'])):
                     try:
-                        if self.config['output']['diff_all']:
-                            if self.config['output']['diff_mid'] and not from_mid:
-                                shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
-                                                os.path.join(self.output_dir, 'diff_mid', record['hash']))
-                            if self.config['output']['diff_mid'] and from_mid:
-                                shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
-                                                os.path.join(self.output_dir, 'diff_result', record['hash']))
+                        if self.config['output']['diff_mid'] and not from_mid:
+                            shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
+                                            os.path.join(self.output_dir, 'diff_mid', record['hash']))
+                        if self.config['output']['diff_mid'] and from_mid:
+                            shutil.copytree(os.path.join(self.output_dir, 'diff_all', record['hash']),
+                                            os.path.join(self.output_dir, 'diff_result', record['hash']))
                         else:
                             print('No diff record!')
                     except FileExistsError:

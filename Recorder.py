@@ -7,7 +7,6 @@ class DBRecorder:
         self.config = config
         self.conn = None
         self.cursor = None
-        self.fields = config['output']['content']
 
     def connect_db(self):
         path = os.path.expanduser(self.config['output']['dir'])
@@ -22,17 +21,13 @@ class DBRecorder:
     def create_db_table(self):
         if not self.conn:
             self.connect_db()
-        create_strs = []
-        if 'hash' in self.fields:
-            create_strs.append('hash text primary key not null')
-        if 'summary' in self.fields:
-            create_strs.append('summary text not null')
-        if 'description' in self.fields:
-            create_strs.append('description text')
-        if 'date' in self.fields:
-            create_strs.append('date text')
-        if 'author' in self.fields:
-            create_strs.append('author text')
+        create_strs = [
+            'hash text primary key not null',
+            'summary text not null',
+            'description text',
+            'date text',
+            'author text'
+        ]
         try:
             self.cursor.execute('create table record({})'.format(','.join(create_strs)))
         except sqlite3.OperationalError:

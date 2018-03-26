@@ -8,6 +8,7 @@ from git import GitCommandError
 from git import NULL_TREE
 from git import Repo
 
+from FileFilter import FileFilter
 from Filter import DBFilter
 from Recorder import DBRecorder
 
@@ -33,7 +34,7 @@ if __name__ == '__main__':
     repo = Repo(config['working_dir'])
 
     skip = 0
-    page_size = 50
+    page_size = 100
 
     from_date = config['filter']['restrict']['from_date']
     from_date = datetime.datetime.strptime('1970-01-01' if from_date == -1 else str(from_date), '%Y-%m-%d')
@@ -44,7 +45,6 @@ if __name__ == '__main__':
     commit_count = 0
     commit_count_limit = int(config['filter']['restrict']['commit_count'])
 
-    fields = config['output']['content']
     can_continue = True
 
     print('Start extracting...')
@@ -64,37 +64,32 @@ if __name__ == '__main__':
                 if commit_date > to_date:
                     continue
                 if from_date <= commit_date:
-                    record = {}
-                    if 'hash' in fields:
-                        record['hash'] = commit.hexsha
-                    if 'summary' in fields:
-                        record['summary'] = commit.summary
-                    if 'description' in fields:
-                        record['description'] = commit.message
-                    if 'date' in fields:
-                        record['date'] = str(commit_date)
-                    if 'author' in fields:
-                        record['author'] = commit.author.name
-                    if config['output']['diff_all']:
-                        parents = commit.parents
-                        if len(parents) > 1:
-                            # not tested
-                            sorted_parents = sorted(parents, key=lambda x: x.committed_datetime)
-                            latest = sorted_parents[-1]
-                            diffs = latest.diff(commit, create_patch=True)
-                        elif len(parents) == 1:
-                            diffs = parents[0].diff(commit, create_patch=True)
-                        else:
-                            diffs = commit.diff(NULL_TREE, create_patch=True)
-                        for diff in diffs:
-                            diff_folder = os.path.join(diff_root, commit.hexsha)
-                            if not os.path.exists(diff_folder):
-                                os.makedirs(diff_folder)
-                            file_name = diff.b_path if diff.a_path is None else diff.a_path
-                            with open(os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff'), 'w') as f:
-                                f.write(str(diff))
-                            with open(os.path.join(diff_folder, 'description.txt'), 'w') as f:
-                                f.write(json.dumps(record, indent=4))
+                    record = {
+                        'hash': commit.hexsha,
+                        'summary': commit.summary,
+                        'description': commit.message,
+                        'date': str(commit_date),
+                        'author': commit.author.name
+                    }
+                    parents = commit.parents
+                    if len(parents) > 1:
+                        # not tested
+                        sorted_parents = sorted(parents, key=lambda x: x.committed_datetime)
+                        latest = sorted_parents[-1]
+                        diffs = latest.diff(commit, create_patch=True)
+                    elif len(parents) == 1:
+                        diffs = parents[0].diff(commit, create_patch=True)
+                    else:
+                        diffs = commit.diff(NULL_TREE, create_patch=True)
+                    for diff in diffs:
+                        diff_folder = os.path.join(diff_root, commit.hexsha)
+                        if not os.path.exists(diff_folder):
+                            os.makedirs(diff_folder)
+                        file_name = diff.b_path if diff.a_path is None else diff.a_path
+                        with open(os.path.join(diff_folder, file_name.replace('/', '\\') + '.diff'), 'w') as f:
+                            f.write(str(diff))
+                        with open(os.path.join(diff_folder, 'description.txt'), 'w') as f:
+                            f.write(json.dumps(record, indent=4))
                     commit_count += 1
                     recorder.add_db_record(record)
                 else:
@@ -128,6 +123,9 @@ if __name__ == '__main__':
             db_filter.add_db_record(item, is_final_result=True)
             commit_count += 1
             print(commit_count)
+
+    file_filter = FileFilter(config)
+    file_filter.start_filtering()
 
     recorder.close()
     print('All done!')
