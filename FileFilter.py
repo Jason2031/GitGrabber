@@ -55,7 +55,7 @@ class FileFilter:
                             result = pattern.search(diff) if result is None else result
                         if result is None:  # no match
                             file_list.append(diff)
-                    if 0 < len(file_list) <= self.NOF:
+                    if self.NOF == -1 or 0 < len(file_list) <= self.NOF:
                         loc_list = []
                         for file in file_list:
                             with open(os.path.join(folder_path, commit_dir, file)) as f:
@@ -65,7 +65,7 @@ class FileFilter:
                                 for diff_loc in diff_result:
                                     loc += int(diff_loc)
                                 loc_list.append(loc)
-                        if sorted(loc_list)[-1] <= self.LOC:
+                        if self.LOC == -1 or sorted(loc_list)[-1] <= self.LOC:
                             shutil.copytree(os.path.join(folder_path, commit_dir),
                                             os.path.join(self.final_dir, commit_dir))
                             count += 1
