@@ -18,11 +18,37 @@ Install them using pip or else.
 #### How to use?
 
 1. Download the git repo which you want to grab infomation from.
+
 2. Download this repo.
+
 3. Edit the config.yml file. Set the `working_dir` and `output.dir` fields and other fields that interests you.
+
 4. `cd` to this repo.
+
 5. Run script with `python main.py` or `python main.py --config config.yml`.
+
 6. Extract result will be stored in the path you specified in `config.yml`.
+
+   ##### The config file
+
+   The config file is in yaml format.
+
+   * `working_dir` denotes the path to the target git repo, this should point to the folder containing `.git` folder.
+   * `filter` denotes the filter conditions.
+     * `branch` denotes the target branch.
+     * `restrict` denotes the first-level filter restriction.
+       * `commit_count` denotes filtered result commit count, possible values: `-1` meaning unlimited or `[actual number]`.
+       * `from_date` & `to_date` denote filtered result time interval, possible values: `-1` meaning unlimited or `[actual date]`.
+     * `key_words` denotes the second-level filter restriction.
+       * `first` denotes the first-level key word filter, usually some borad words.
+       * `second` denotes the second-level key word filter, usually some specific words.
+     * `LOC` is a part of the third-level filter restrictoins, it denotes the lines of diff code bound for each file. Those files whose lines of diff code is larger than this number will be discarded.
+     * `NOF` is also a part of the third-level filter restrictions, it denotes the number of diff files bound for each commit. Those commits whose number of diff files is larger than this number will be discarded.
+     * `file_name` is also a part of the third-level filter restrictions, it denotes those files whose name contains these words will be discarded.
+   * `output` denotes info of output record.
+     * `dir` denotes the path of result.
+     * `file_name` denotes the sqlite db file name.
+     * `diff_mid` & `diff_result` denotes whether outputting corresponding middle or final diff, recommended to set to `True`.
 
 #### The result folder
 
