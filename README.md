@@ -52,6 +52,8 @@ Install them using pip or else.
 
 #### The result folder
 
+original git repo =====filter.restrict=====> `diff_all` =====filter.key_words.first=====> `diff_mid` =====filter.key_words.second=====> `dif_result` =====filter.LOC & NOF & file_name & ignore_case =====> `diff_final`
+
 result
 
 * report.db (or name you specified in `config.yml`) - sqlite file storing meta data of each commit extracted
