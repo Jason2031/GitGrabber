@@ -77,8 +77,10 @@ if __name__ == '__main__':
                         sorted_parents = sorted(parents, key=lambda x: x.committed_datetime)
                         latest = sorted_parents[-1]
                         diffs = latest.diff(commit, create_patch=True)
+                        record['parent_hash'] = latest.hexsha
                     elif len(parents) == 1:
                         diffs = parents[0].diff(commit, create_patch=True)
+                        record['parent_hash'] = parents[0].hexsha
                     else:
                         diffs = commit.diff(NULL_TREE, create_patch=True)
                     for diff in diffs:
@@ -98,7 +100,7 @@ if __name__ == '__main__':
             else:
                 can_continue = False
                 break
-            print(commit_count)
+            print('{} [{}][{}]'.format(commit_count, record['date'], record['summary']))
         if len(commit_page) == 0:
             break
         skip += len(commit_page)
