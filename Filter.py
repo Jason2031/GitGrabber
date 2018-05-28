@@ -27,6 +27,7 @@ class DBFilter:
     def create_db(self):
         create_strs = [
             'hash text primary key not null',
+            'parent_hash text not null',
             'summary text not null',
             'description text',
             'date text',
