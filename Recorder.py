@@ -23,6 +23,7 @@ class DBRecorder:
             self.connect_db()
         create_strs = [
             'hash text primary key not null',
+            'parent_hash text not null',
             'summary text not null',
             'description text',
             'date text',
