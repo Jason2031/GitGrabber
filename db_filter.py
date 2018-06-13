@@ -5,7 +5,7 @@ import sqlite3
 
 import yaml
 
-from Recorder import DBRecorder
+from db_recorder import DBRecorder
 
 
 class DBFilter:

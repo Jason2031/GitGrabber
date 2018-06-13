@@ -8,9 +8,9 @@ from git import GitCommandError
 from git import NULL_TREE
 from git import Repo
 
-from FileFilter import FileFilter
-from Filter import DBFilter
-from Recorder import DBRecorder
+from file_filter import FileFilter
+from db_filter import DBFilter
+from db_recorder import DBRecorder
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Grab useful message from git repository')
