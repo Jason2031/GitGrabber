@@ -8,9 +8,9 @@ from git import GitCommandError
 from git import NULL_TREE
 from git import Repo
 
-from file_filter import FileFilter
 from db_filter import DBFilter
 from db_recorder import DBRecorder
+from file_filter import FileFilter
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Grab useful message from git repository')
@@ -112,6 +112,8 @@ if __name__ == '__main__':
     db_filter.create_db()
 
     for first_level_keyword in config['filter']['key_words']['first']:
+        if first_level_keyword is None:
+            first_level_keyword = 'null'
         result = db_filter.filter(first_level_keyword, from_mid=False)
         for item in result:
             db_filter.add_db_record(item, is_final_result=False)
@@ -120,6 +122,8 @@ if __name__ == '__main__':
 
     commit_count = 0
     for second_level_keyword in config['filter']['key_words']['second']:
+        if second_level_keyword is None:
+            second_level_keyword = 'null'
         result = db_filter.filter(second_level_keyword, from_mid=True)
         for item in result:
             db_filter.add_db_record(item, is_final_result=True)
