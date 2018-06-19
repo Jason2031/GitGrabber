@@ -1,6 +1,6 @@
 working_dir : /Users/guzuxing/Code/open_source/httpd
 filter :
-  branch : master
+  branch : trunk
   restrict :
     commit_count : -1  # commit_count limit or -1 to ignore limit
     # precise date or -1 to ignore date bound
