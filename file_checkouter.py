@@ -44,12 +44,12 @@ if __name__ == '__main__':
             this_tree = repo.tree(this_hash)
             parent_tree = repo.tree(parent_hash)
             for changed_file in changed_files:
-                name, ext = os.path.splitext(changed_file)
-                fixed_file_name = '{}_fixed{}'.format(name, ext).replace('/', '\\')
-                fixed_file_name = os.path.join(diff_folder, fixed_file_name)
-                fixed_file = this_tree[changed_file]
-                fixed_file.stream_data(open(fixed_file_name, 'wb'))
                 try:
+                    name, ext = os.path.splitext(changed_file)
+                    fixed_file_name = '{}_fixed{}'.format(name, ext).replace('/', '\\')
+                    fixed_file_name = os.path.join(diff_folder, fixed_file_name)
+                    fixed_file = this_tree[changed_file]
+                    fixed_file.stream_data(open(fixed_file_name, 'wb'))
                     parent_file = parent_tree[changed_file]
                     parent_file_name = changed_file.replace('/', '\\')
                     parent_file_name = os.path.join(diff_folder, parent_file_name)
