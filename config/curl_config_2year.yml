@@ -1,4 +1,4 @@
-working_dir : /Users/guzuxing/Code/open_source/curl
+working_dir : ~/Code/open_source/curl
 filter :
   branch : master
   restrict :
@@ -6,7 +6,8 @@ filter :
     # precise date or -1 to ignore date bound
     from_date : 2016-01-01
     to_date : 2017-12-31
-  key_words :
+    NOF : 50
+  keywords :
     first :
       - bug
       - fix
@@ -43,16 +44,10 @@ filter :
       - unchecked return 
       - SSL
   LOC : 20
-  NOF : 3
-  file_name :
+  discard_file_names :
     - test
     - news
     - contribute
     - configuration
   ignore_case : True
-output :
-  dir : /Users/guzuxing/Code/open_source/gitgrabber_result/curl
-  file_name : openssl_report.db
-  # diff_xxx fields denote whether outputting diff patches in corresponding folders
-  diff_mid : True # whether outputting middle result
-  diff_result : True  # whether outputting final result
+checkout: True

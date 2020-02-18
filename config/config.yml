@@ -1,0 +1,35 @@
+working_dir: absolute/or/relative/path/to/target/git/repo/root
+filter:
+  branch: master
+  restrict:
+    commit_count: -1  # commit_count limit or -1 to ignore limit
+    # precise date or -1 to ignore date bound
+    from_date: 2002-01-01
+    to_date: 2010-01-01
+    NOF: 50   # number of files
+  keywords:
+    first:
+      - bug
+      - fix
+      - check
+      - issue
+      - mistake
+      - incorrect
+      - fault
+      - defect
+      - error
+    second:
+      - integer
+      - memory leak
+      - error path
+      - unchecked return
+      - error handle
+      - check return
+      - error check
+  LOC: 20  # lines of code
+  discard_file_names:
+    - test
+    - news
+    - contribute
+  ignore_case: True
+checkout: True

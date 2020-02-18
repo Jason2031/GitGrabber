@@ -1,4 +1,4 @@
-working_dir : absolute/or/relative/path/to/target/git/repo/root
+working_dir : ~/Code/gnutls
 filter :
   branch : master
   restrict :
@@ -6,7 +6,8 @@ filter :
     # precise date or -1 to ignore date bound
     from_date : 2002-01-01
     to_date : 2010-01-01
-  key_words :
+    NOF : 50
+  keywords :
     first :
       - bug
       - fix
@@ -26,15 +27,9 @@ filter :
       - check return
       - error check
   LOC : 20
-  NOF : 3
-  file_name :
+  discard_file_names :
     - test
     - news
     - contribute
   ignore_case : True
-output :
-  dir : absolute/or/relative/path/where/you/want/to/store/the/result
-  file_name : report.db
-  # diff_xxx fields denote whether outputting diff patches in corresponding folders
-  diff_mid : True # whether outputting middle result
-  diff_result : True  # whether outputting final result
+checkout: True

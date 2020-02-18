@@ -3,36 +3,35 @@ import sqlite3
 
 
 class DBRecorder:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, report_dir):
+        self.report_dir = report_dir
+        if not os.path.exists(self.report_dir):
+            os.makedirs(self.report_dir)
         self.conn = None
         self.cursor = None
 
     def connect_db(self):
-        path = os.path.expanduser(self.config['output']['dir'])
-        if not os.path.exists(path):
-            os.makedirs(path)
-        self.conn = sqlite3.connect(os.path.join(path, self.config['output']['file_name']))
+        self.conn = sqlite3.connect(os.path.join(self.report_dir, 'report.db'))
         self.cursor = self.conn.cursor()
         if not self.conn or not self.cursor:
             print('Fail to connect to sqlite db')
             exit(-1)
 
-    def create_db_table(self):
+    def create_db_table_if_not_exists(self, table_name, field_string_set):
         if not self.conn:
             self.connect_db()
-        create_strs = [
-            'hash text primary key not null',
-            'parent_hash text not null',
-            'summary text not null',
-            'description text',
-            'date text',
-            'author text'
-        ]
         try:
-            self.cursor.execute('create table record({})'.format(','.join(create_strs)))
+            self.cursor.execute('create table {}({})'.format(table_name, ','.join(field_string_set)))
         except sqlite3.OperationalError:
             # table already exists, do nothing
+            pass
+
+    def clear_table(self, table_name):
+        if not self.conn:
+            self.connect_db()
+        try:
+            self.cursor.execute('delete from {}'.format(table_name))
+        except sqlite3.OperationalError:
             pass
 
     def add_db_record(self, row):
